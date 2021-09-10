@@ -1,0 +1,21 @@
+aws s3 cp s3://stat196k-data-examples/2018.csv.gz - --no-sign-request | gunzip | head -n100 > first100rows.csv
+exit
+sftp ec2-user@ec2-54-144-114-100.compute-1.amazonaws.com
+ls
+get first100rows.csv
+exit
+cp first100rows.csv /mnt/c/Users/hlcn2/Desktop
+cd /mnt/c/Users/hlcn2/Desktop
+ls
+exit
+
+# two seperate sessions
+time aws s3 cp s3://stat196k-data-examples/2018.csv.gz - --no-sign-request | gunzip  | cut -f 31 | awk '{print int($1)}' | sort -n | uniq -c > allscores.csv
+sftp ec2-user@ec2-54-162-136-198.compute-1.amazonaws.com
+ls
+get allscores.csv
+exit
+cp allscores.csv /mnt/c/Users/hlcn2/Desktop
+cd /mnt/c/Users/hlcn2/Desktop
+ls
+exit
