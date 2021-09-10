@@ -1,0 +1,55 @@
+# catherine nguyen
+# edited: march 8th, 2021
+
+using Random
+
+function reservSample(stream=stdin, size=100)
+    if isempty(ARGS)
+        sampleSize = size
+    else    
+        sampleSize = parse(Int, ARGS[1])
+    end
+    # populate resevoir array
+    reservoir = fill("", sampleSize)
+    count = 1
+    for element in eachline(stream)
+        if count <= sampleSize
+            reservoir[count] = element
+        else
+            randIndex = rand(1:count)
+            if randIndex <= sampleSize
+                reservoir[randIndex] = element
+            end
+        end
+        count += 1
+    end
+    # println(reservoir) # reservoir tester
+
+    # fill sample
+    realCount = count - 1
+    if realCount < sampleSize
+        sample = fill("", realCount)
+        for element in 1:realCount
+            sample[element] = reservoir[element]
+        end
+        # println(sample) # sample array tester
+        shuf(sample)
+    else
+        shuf(reservoir)
+    end
+end
+
+function shuf(r)
+    res = Random.shuffle(r)
+    for element in 1:length(res)
+        println(res[element])
+    end 
+end
+
+function main()
+    R = reservSample()
+end
+
+if abspath(PROGRAM_FILE) == @__FILE__
+    main()
+end
